@@ -3,6 +3,7 @@ extern crate sdl2;
 
 use clap::{App, Arg};
 use palette::{FromColor, Hsv, Srgb};
+use rhai::{Engine, Scope};
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use sdl2::pixels::Color;
@@ -15,8 +16,8 @@ use std::str::FromStr;
 use std::thread::sleep;
 use std::time::Duration;
 
-const APP_NAME: &str = "SDL2 Template";
-const APP_VERSION: &str = "0.1";
+const APP_NAME: &str = "Nyaa";
+const APP_VERSION: &str = "0.1 Pre-Aplha";
 const SLEEP_SECOND: u32 = 1_000_000_000; // nanoseconds
 const DEFAULT_FPS: u32 = 60; // fps
 const DEFAULT_SDL_WINDOW_WIDTH: u32 = 800; // pixels
@@ -129,6 +130,15 @@ pub fn rlib_run(args: Vec<&str>) -> Result<(), Box<dyn Error>> {
   }
   let mut sdl_canvas = sdl_window.into_canvas().build()?;
   let mut sdl_event_pump = sdl_context.event_pump()?;
+
+  let engine = Engine::new_raw();
+  let mut scope = Scope::new();
+  scope.push("frame", 0_i64);
+  let ast = engine.compile_file("scripts/update.rhai".into())?;
+  let result: i64 = engine.eval_ast_with_scope(&mut scope, &ast)?;
+  println!("Update: {}", result); 
+  let result: i64 = engine.eval_ast_with_scope(&mut scope, &ast)?;
+  println!("Update: {}", result); 
 
   // Main Loop
   while !state.done {
