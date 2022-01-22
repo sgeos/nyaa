@@ -2,6 +2,16 @@
 
 Forked from [Rust SDL2 Template](https://github.com/sgeos/sdl2_template/).
 
+# Building
+
+The following libraries need to be installed to build this project.
+
+- SDL2
+- SDL2 Mixer
+- SDL2 Image
+- SDL2 TTF
+- SDL2 GFX
+
 # Usage Examples
 
 This template accepts command line arguments and environment variables.
